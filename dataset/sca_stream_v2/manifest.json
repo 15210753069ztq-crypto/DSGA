@@ -1,0 +1,324 @@
+{
+  "name": "SCA-Stream-v2",
+  "version": "2.0",
+  "generator": "linear Gaussian graph VAR(1)",
+  "purpose": "task-free continual forecasting and drift-mechanism diagnosis",
+  "seeds": 5,
+  "nodes": 20,
+  "warmup_length": 4096,
+  "online_length": 12288,
+  "warmup_online_ratio": "25:75",
+  "regime_length": 1536,
+  "block_length": 512,
+  "lag": 12,
+  "horizon": 1,
+  "regimes": [
+    {
+      "name": "stable_1",
+      "mechanism": "base",
+      "oracle_action": "freeze"
+    },
+    {
+      "name": "marginal_1",
+      "mechanism": "marginal",
+      "oracle_action": "time"
+    },
+    {
+      "name": "base_return_1",
+      "mechanism": "base",
+      "oracle_action": "freeze"
+    },
+    {
+      "name": "dependency_1",
+      "mechanism": "dependency",
+      "oracle_action": "graph"
+    },
+    {
+      "name": "base_return_2",
+      "mechanism": "base",
+      "oracle_action": "freeze"
+    },
+    {
+      "name": "joint_1",
+      "mechanism": "joint",
+      "oracle_action": "joint"
+    },
+    {
+      "name": "marginal_recurrence",
+      "mechanism": "marginal",
+      "oracle_action": "time"
+    },
+    {
+      "name": "dependency_recurrence",
+      "mechanism": "dependency",
+      "oracle_action": "graph"
+    }
+  ],
+  "construction_guarantees": {
+    "marginal_only": "transition matrix is fixed; stationary mean and covariance change",
+    "dependency_only": "transition/support change; stationary mean is zero and stationary covariance is held at identity by Sigma = Gamma - A Gamma A^T",
+    "joint": "both transition/support and stationary marginal change",
+    "recurrence": "fresh samples are drawn from previously seen mechanisms",
+    "task_labels": "stored only for evaluation and never exposed to the router"
+  },
+  "online_protocol": "For every block: predict all targets before update, reveal labels, diagnose without task identity, then update for future blocks. Normalization uses warm-up only.",
+  "empirical_checks": [
+    {
+      "seed": 0,
+      "transition_relative_change": 0.6384994168154574,
+      "regimes": [
+        {
+          "mechanism": "base",
+          "mean_shift_l2_per_node": 0.04965245947394718,
+          "covariance_relative_change": 0.15188928516645464
+        },
+        {
+          "mechanism": "marginal",
+          "mean_shift_l2_per_node": 0.15567028707642888,
+          "covariance_relative_change": 0.5827691948479325
+        },
+        {
+          "mechanism": "base",
+          "mean_shift_l2_per_node": 0.03856691529135544,
+          "covariance_relative_change": 0.13611788513388498
+        },
+        {
+          "mechanism": "dependency",
+          "mean_shift_l2_per_node": 0.04381440175301715,
+          "covariance_relative_change": 0.15014219710656548
+        },
+        {
+          "mechanism": "base",
+          "mean_shift_l2_per_node": 0.03597547858319897,
+          "covariance_relative_change": 0.15611875232396333
+        },
+        {
+          "mechanism": "joint",
+          "mean_shift_l2_per_node": 0.16159118000175007,
+          "covariance_relative_change": 0.5822769996166487
+        },
+        {
+          "mechanism": "marginal",
+          "mean_shift_l2_per_node": 0.1699494939871367,
+          "covariance_relative_change": 0.5926600148389615
+        },
+        {
+          "mechanism": "dependency",
+          "mean_shift_l2_per_node": 0.036797322398004886,
+          "covariance_relative_change": 0.1436397121119173
+        }
+      ]
+    },
+    {
+      "seed": 1,
+      "transition_relative_change": 0.5910639466574701,
+      "regimes": [
+        {
+          "mechanism": "base",
+          "mean_shift_l2_per_node": 0.05216771579878035,
+          "covariance_relative_change": 0.13926887407958363
+        },
+        {
+          "mechanism": "marginal",
+          "mean_shift_l2_per_node": 0.1851649801707229,
+          "covariance_relative_change": 0.582951062092374
+        },
+        {
+          "mechanism": "base",
+          "mean_shift_l2_per_node": 0.049225239398901,
+          "covariance_relative_change": 0.13236592174181203
+        },
+        {
+          "mechanism": "dependency",
+          "mean_shift_l2_per_node": 0.043300949969204375,
+          "covariance_relative_change": 0.13712842258357397
+        },
+        {
+          "mechanism": "base",
+          "mean_shift_l2_per_node": 0.03858612490092013,
+          "covariance_relative_change": 0.14641608838469533
+        },
+        {
+          "mechanism": "joint",
+          "mean_shift_l2_per_node": 0.17467625384597701,
+          "covariance_relative_change": 0.5907238283225839
+        },
+        {
+          "mechanism": "marginal",
+          "mean_shift_l2_per_node": 0.1520896413364842,
+          "covariance_relative_change": 0.5773534034351375
+        },
+        {
+          "mechanism": "dependency",
+          "mean_shift_l2_per_node": 0.030620045141224433,
+          "covariance_relative_change": 0.14069663726557088
+        }
+      ]
+    },
+    {
+      "seed": 2,
+      "transition_relative_change": 0.5919321035554667,
+      "regimes": [
+        {
+          "mechanism": "base",
+          "mean_shift_l2_per_node": 0.03534101646798323,
+          "covariance_relative_change": 0.13527459942998754
+        },
+        {
+          "mechanism": "marginal",
+          "mean_shift_l2_per_node": 0.1936842007105871,
+          "covariance_relative_change": 0.5785151195152213
+        },
+        {
+          "mechanism": "base",
+          "mean_shift_l2_per_node": 0.031429140825969704,
+          "covariance_relative_change": 0.14607941488373785
+        },
+        {
+          "mechanism": "dependency",
+          "mean_shift_l2_per_node": 0.022782287614166997,
+          "covariance_relative_change": 0.14997682522704026
+        },
+        {
+          "mechanism": "base",
+          "mean_shift_l2_per_node": 0.03337361954824904,
+          "covariance_relative_change": 0.14940577026214324
+        },
+        {
+          "mechanism": "joint",
+          "mean_shift_l2_per_node": 0.21228799179744742,
+          "covariance_relative_change": 0.575162369562025
+        },
+        {
+          "mechanism": "marginal",
+          "mean_shift_l2_per_node": 0.19035829824732162,
+          "covariance_relative_change": 0.5911349340901795
+        },
+        {
+          "mechanism": "dependency",
+          "mean_shift_l2_per_node": 0.04423346554150726,
+          "covariance_relative_change": 0.13968199098017875
+        }
+      ]
+    },
+    {
+      "seed": 3,
+      "transition_relative_change": 0.5771180385703254,
+      "regimes": [
+        {
+          "mechanism": "base",
+          "mean_shift_l2_per_node": 0.04349665238444659,
+          "covariance_relative_change": 0.14117262238495093
+        },
+        {
+          "mechanism": "marginal",
+          "mean_shift_l2_per_node": 0.16011401473468517,
+          "covariance_relative_change": 0.5910563202735212
+        },
+        {
+          "mechanism": "base",
+          "mean_shift_l2_per_node": 0.03216607321849908,
+          "covariance_relative_change": 0.1612584083312704
+        },
+        {
+          "mechanism": "dependency",
+          "mean_shift_l2_per_node": 0.03552038739120302,
+          "covariance_relative_change": 0.14913022052357477
+        },
+        {
+          "mechanism": "base",
+          "mean_shift_l2_per_node": 0.034408107697832147,
+          "covariance_relative_change": 0.14483215262367477
+        },
+        {
+          "mechanism": "joint",
+          "mean_shift_l2_per_node": 0.14914813672189955,
+          "covariance_relative_change": 0.5992355718219353
+        },
+        {
+          "mechanism": "marginal",
+          "mean_shift_l2_per_node": 0.17097756713671577,
+          "covariance_relative_change": 0.5962336212850475
+        },
+        {
+          "mechanism": "dependency",
+          "mean_shift_l2_per_node": 0.05405337565746304,
+          "covariance_relative_change": 0.14804373831085824
+        }
+      ]
+    },
+    {
+      "seed": 4,
+      "transition_relative_change": 0.5565401373492199,
+      "regimes": [
+        {
+          "mechanism": "base",
+          "mean_shift_l2_per_node": 0.033377993031252204,
+          "covariance_relative_change": 0.14367003989805419
+        },
+        {
+          "mechanism": "marginal",
+          "mean_shift_l2_per_node": 0.1728818833709555,
+          "covariance_relative_change": 0.5990589897003105
+        },
+        {
+          "mechanism": "base",
+          "mean_shift_l2_per_node": 0.031875543850814085,
+          "covariance_relative_change": 0.14567402978156882
+        },
+        {
+          "mechanism": "dependency",
+          "mean_shift_l2_per_node": 0.04060254777053618,
+          "covariance_relative_change": 0.15495037295249364
+        },
+        {
+          "mechanism": "base",
+          "mean_shift_l2_per_node": 0.03595568544916925,
+          "covariance_relative_change": 0.14241186983025586
+        },
+        {
+          "mechanism": "joint",
+          "mean_shift_l2_per_node": 0.1599353560704864,
+          "covariance_relative_change": 0.5936344795559297
+        },
+        {
+          "mechanism": "marginal",
+          "mean_shift_l2_per_node": 0.17014087133002273,
+          "covariance_relative_change": 0.5983870451173577
+        },
+        {
+          "mechanism": "dependency",
+          "mean_shift_l2_per_node": 0.03682334476295567,
+          "covariance_relative_change": 0.14050622829425138
+        }
+      ]
+    }
+  ],
+  "files": [
+    {
+      "file": "seed_00.npz",
+      "bytes": 1218480,
+      "sha256": "d39cf2c2528bb5bedd5bb24e3e1d75e45982485a64a2ebd7d0a0dc5b60b5f9c8"
+    },
+    {
+      "file": "seed_01.npz",
+      "bytes": 1218602,
+      "sha256": "3da6d6af6e45b318bac035bb320508d314c45f355ad8dd043e8dcd5415278277"
+    },
+    {
+      "file": "seed_02.npz",
+      "bytes": 1218440,
+      "sha256": "96a3fd0dabb53c3bdbcb9486eff62ac4e348ee9bfc3940b359937744bd599459"
+    },
+    {
+      "file": "seed_03.npz",
+      "bytes": 1218454,
+      "sha256": "8dffb1475510ee5aa2beb776d5b55d0d06ee732a44b2d67e0d4c7135273249b1"
+    },
+    {
+      "file": "seed_04.npz",
+      "bytes": 1218334,
+      "sha256": "cefc8a92f79808fb3541e17c4d4580bb5f29a6aaba4238f174b05f20a1dd5376"
+    }
+  ]
+}
