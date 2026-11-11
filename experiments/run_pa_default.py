@@ -1,4 +1,4 @@
-"""DSGA-DV with its default configuration under protocol A (no per-dataset selection).
+"""DSGA with its default configuration under protocol A (no per-dataset selection).
 
 Runs on CPU while no GPU is free; uses at most --max-gpus GPUs that have no process of
 anyone else (including other projects of the same account).

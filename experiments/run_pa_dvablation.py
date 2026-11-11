@@ -4,7 +4,7 @@
   mod       仅低秩权重调制（不开双视图）
   ens       冻结的 A+B 视图集成（不调用适配器、不开调制）
   ens_full  A+B 集成 + 适配器 + 调制
-完整 DSGA-DV（FTL 切换）复用 outputs/pa2/final 与 final_fix。
+完整 DSGA（FTL 切换）复用 outputs/pa2/final 与 final_fix。
     python run_pa_dvablation.py --max-gpus 2 --cpu-jobs 2 --threads 4
 """
 from __future__ import annotations

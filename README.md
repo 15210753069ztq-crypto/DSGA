@@ -1,11 +1,11 @@
-# DSGA-DV: Drift-Aware Selective Graph Adaptation with Dual Views
+# DSGA: Drift-Aware Selective Graph Adaptation
 
 Code and datasets for *Not Every Drift Changes the Graph: Drift-Aware Selective Adaptation for
 Graph-Based Continual Multivariate Time-Series Forecasting*.
 
 DSGA diagnoses, after every revealed block, whether the data distribution (marginal evidence) or the
 cross-variable predictability (dependency evidence) has changed relative to the warm-up data, and routes
-the block to one of four actions: `freeze`, `time`, `graph`, `joint`. DSGA-DV adds low-rank weight
+the block to one of four actions: `freeze`, `time`, `graph`, `joint`. DSGA also uses low-rank weight
 modulation and a second, instance-normalized view of the same backbone, combined either by per-block
 switching (S) or by an exponentiated-gradient ensemble (E).
 
@@ -13,13 +13,13 @@ switching (S) or by an exponentiated-gradient ensemble (E).
 
 ```
 experiments/
-  run_pems08_prequential_multihorizon.py   DSGA / DSGA-DV: model, diagnosis, routing, memory, dual view, online loop
+  run_pems08_prequential_multihorizon.py   DSGA: model, diagnosis, routing, memory, dual view, online loop
   run_natural_stream_benchmark.py          null calibration and drift diagnosis (marginal / dependency scores)
   run_neural_gnn_prediction.py             scores, seeds, shared utilities
   run_neural_gnn_prediction_v2.py          per-action trainable subsets and learning rates
   e0_oracle/run_e0.py                      ridge helpers used by the dependency score
   run_pa_protocol.py                       protocol, hyperparameter grid, GPU scheduler (search / select / final)
-  run_pa_default.py                        DSGA-DV with the default configuration
+  run_pa_default.py                        DSGA with the default configuration
   run_pa_dvablation.py                     dual-view variants: mod, ens (frozen ensemble), ens_full (= E)
   run_pa_modesel.py                        validation-stream choice between S and E
   run_pa_sca_ablation.py                   routing ablation on the controlled stream (5 streams x variants)
@@ -43,7 +43,7 @@ Each stream is split chronologically 20% / 5% / 75% (train / validation / online
 predicted with fixed parameters, then its labels are released; only windows whose full `H`-step target
 has been released are used for diagnosis-triggered updates and for view selection.
 
-## Reproducing the DSGA-DV results
+## Reproducing the DSGA results
 
 All launchers run from `experiments/` and write to `experiments/outputs/pa2/`. GPUs on which another
 process is running are skipped.
@@ -71,7 +71,7 @@ process is running are skipped.
    python run_pa_modesel.py --select                         # writes outputs/pa2/mode_selection.csv
    ```
 
-   The reported DSGA-DV result of a (stream, horizon) pair is the `final` run if `mode_selection.csv` says
+   The reported DSGA result of a (stream, horizon) pair is the `final` run if `mode_selection.csv` says
    `ftl` (S) and the `dv_ablation/ens_full` run if it says `eg` (E).
 
 4. Default configuration (no selection): `python run_pa_default.py`.

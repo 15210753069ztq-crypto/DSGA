@@ -1,10 +1,10 @@
-"""DSGA-DV under the Proceed-aligned protocol (20/5/75, L=60, H in {1, 24}, block-wise release).
+"""DSGA under the Proceed-aligned protocol (20/5/75, L=60, H in {1, 24}, block-wise release).
 
 Stages:
-    search      validation-stream grid search of the DSGA-DV hyperparameters (--warmup-validation)
+    search      validation-stream grid search of the DSGA hyperparameters (--warmup-validation)
     dsga-first  search, then each final run as soon as its search is complete
     select      per (dataset, H) configuration with the lowest validation prequential MSE
-    final       DSGA-DV (view switching, S) on the full stream with the selected configuration
+    final       DSGA (view switching, S) on the full stream with the selected configuration
 
 GPU rule: a GPU receives a new job only if every compute process on it was started by
 this scheduler. A GPU on which another process has been seen is excluded for the rest of the run.
